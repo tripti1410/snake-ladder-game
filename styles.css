@@ -1,22 +1,28 @@
 :root {
   --ticker-color: transparent;
+  --board-marron: #e56567;
+  --board-green: #609217;
+  --board-pink: #ffc0cb;
+  --board-blue: #00adff;
+  --board-off-white: #f8f8ff;
 }
 .board {
-  width: 80vw;
-  height: 80vh;
+  width: 1000px;
+  height: 1000px;
   margin: 0;
-  counter-reset: numbers;
+  border: 1px solid black;
   display: grid;
-  grid-template: repeat(10, 1fr)/ repeat(10, 1fr);
+  grid-template: repeat(10, 100px) / repeat(10, 100px);
 }
 
 .board-item {
   border: 1px solid black;
-  counter-increment: numbers;
-}
-
-.board-item:before {
-  content: counter(numbers);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  z-index: 100;
 }
 
 .players {
@@ -67,4 +73,10 @@ section {
   cursor: none;
   border-color: gray;
   background-color: gray;
+}
+
+.snake-1 {
+  grid-column: 3;
+  grid-row: 1;
+  z-index: 0;
 }
