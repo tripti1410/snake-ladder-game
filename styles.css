@@ -1,0 +1,46 @@
+:root {
+  --ticker-color: transparent;
+}
+.board {
+  width: 80vw;
+  height: 80vh;
+  margin: 0;
+  counter-reset: numbers;
+  display: grid;
+  grid-template: repeat(10, 1fr)/ repeat(10, 1fr);
+}
+
+.board-item {
+  border: 1px solid black;
+  counter-increment: numbers;
+}
+
+.board-item:before {
+  content: counter(numbers);
+}
+
+.players {
+  display: flex;
+  justify-content: space-between;
+  width: 50vw;
+  margin: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.move-ticker {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--ticker-color);
+}
+
+section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.dice-result {
+  font-weight: bold;
+  font-size: 30px;
+}
