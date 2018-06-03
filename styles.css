@@ -44,3 +44,27 @@ section {
   font-weight: bold;
   font-size: 30px;
 }
+
+.button {
+  border: 1px solid;
+  background-color: blue;
+  color: white;
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.button-1 {
+  border-color: red;
+  background-color: red;
+}
+
+.button-2 {
+  border-color: green;
+  background-color: green;
+}
+
+.button.disabled {
+  cursor: none;
+  border-color: gray;
+  background-color: gray;
+}
