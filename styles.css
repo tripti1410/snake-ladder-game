@@ -63,6 +63,7 @@
 }
 
 .button {
+  cursor: pointer;
   border: 1px solid;
   background-color: blue;
   color: white;
@@ -80,8 +81,10 @@
   background-color: green;
 }
 
-.button.disabled {
-  cursor: none;
+.button-1.disabled,
+.button-2.disabled {
+  cursor: no-drop;
+  pointer-events: none;
   border-color: gray;
   background-color: gray;
 }
@@ -89,6 +92,8 @@
 .snake-1 {
   grid-column: 8;
   grid-row: 1;
+  width: 200px;
+  height: 250px;
 }
 
 .snake-2 {

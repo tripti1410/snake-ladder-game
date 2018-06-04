@@ -2,174 +2,192 @@ function rollDice() {
   return Math.floor(Math.random() * 6 + 1);
 }
 
-let playerOneScore = 0, playerTwoScore = 0
+var playerOneScore = 0,
+playerTwoScore = 0;
 
-function PlayerOne() {
-  const number = rollDice();
-  //to show the player number
-  if (number === 6) {
-    document.querySelector(".js-button-2").classList.add("disabled");
-    document.querySelector(".js-button-1").classList.remove("disabled");
-  } else {
-    document.querySelector(".js-button-1").classList.add("disabled");
-    document.querySelector(".js-button-2").classList.remove("disabled");
-  }
-
-  document.querySelector(".js-dice-result").innerHTML = number + "  player 1";
-  //clear the old box
-  if (playerOneScore > 0) {
-    let getBoardItem = `.board-item-${playerOneScore}`;
-    document
-      .querySelector(getBoardItem)
-      .style.setProperty("--ticker-color", "transparent");
-  }
-
-  //set current box
-
-  if (playerOneScore > 94 && playerOneScore <= 100) {
+function getOrBounceScore(score, number) {
+  if (score > 94 && score <= 100) {
     if (
-      (playerOneScore === 99 && number === 1) ||
-      (playerOneScore === 98 && number === 2) ||
-      (playerOneScore === 97 && number === 3) ||
-      (playerOneScore === 96 && number === 4) ||
-      (playerOneScore === 95 && number === 5)
+      (score === 99 && number === 1) ||
+      (score === 98 && number === 2) ||
+      (score === 97 && number === 3) ||
+      (score === 96 && number === 4) ||
+      (score === 95 && number === 5)
     ) {
       console.log("inside 99");
-      playerOneScore = playerOneScore + number;
+      score = score + number;
       alert("player 1 winner");
     } else {
-      playerOneScore;
+      score;
     }
 
-    if (playerOneScore === 98 && number === 1) {
-      playerOneScore = playerOneScore + number;
+    if (score === 98 && number === 1) {
+      score = score + number;
     } else {
-      playerOneScore;
+      score;
     }
 
-    if (playerOneScore === 97 && (number === 1 || number === 2)) {
-      playerOneScore = playerOneScore + number;
+    if (score === 97 && (number === 1 || number === 2)) {
+      score = score + number;
     } else {
-      playerOneScore;
+      score;
     }
 
-    if (
-      playerOneScore === 96 &&
-      (number === 1 || number === 2 || number === 3)
-    ) {
+    if (score === 96 && (number === 1 || number === 2 || number === 3)) {
       console.log("inside 96");
-      playerOneScore = playerOneScore + number;
+      score = score + number;
     } else {
-      playerOneScore;
+      score;
     }
 
     if (
-      playerOneScore === 95 &&
+      score === 95 &&
       (number === 1 || number === 2 || number === 3 || number === 4)
     ) {
       console.log("inside 95");
-      playerOneScore = playerOneScore + number;
+      score = score + number;
     } else {
-      playerOneScore;
+      score;
     }
-    let getNewBoardItem = `.board-item-${playerOneScore}`;
-    document
-      .querySelector(getNewBoardItem)
-      .style.setProperty("--ticker-color", "red");
   } else {
-    playerOneScore = playerOneScore + number;
+    score = score + number;
+  }
+  return score;
+}
+
+function getScoreOnSnakeAndLadder(score) {
+  switch (score) {
+    case 1:
+      score = 23;
+      break;
+    case 5:
+      score = 14;
+      break;
+    case 21:
+      score = 42;
+      break;
+    case 36:
+      score = 58;
+      break;
+    case 29:
+      score = 85;
+      break;
+    case 82:
+      score = 100;
+      break;
+    case 71:
+      score = 92;
+      break;
+    case 49:
+      score = 67;
+      break;
+    case 64:
+      score = 59;
+      break;
+    case 98:
+      score = 48;
+      break;
+    case 31:
+      score = 28;
+      break;
+    case 26:
+      score = 8;
+      break;
+    case 15:
+      score = 1;
+      break;
+    case 93:
+      score = 72;
+      break;
+    case 73:
+      score = 17;
+      break;
+    case 39:
+      score = 19;
+      break;
+  }
+  return score;
+}
+
+function getActivePlayer(number, playerNumber) {
+  const buttonOne = document.querySelector(".js-button-1");
+  const buttonTwo = document.querySelector(".js-button-2");
+  if (playerNumber === 1) {
+    if (number === 6) {
+      buttonTwo.classList.add("disabled");
+      buttonOne.classList.remove("disabled");
+    } else {
+      buttonOne.classList.add("disabled");
+      buttonTwo.classList.remove("disabled");
+    }
+  }
+  if (playerNumber === 2) {
+    if (number === 6) {
+      buttonOne.classList.add("disabled");
+      buttonTwo.classList.remove("disabled");
+    } else {
+      buttonTwo.classList.add("disabled");
+      buttonOne.classList.remove("disabled");
+    }
+  }
+}
+
+function clearPreviousPosition(score) {
+  if (score > 0) {
+    let getBoardItem = `.board-item-${score}`;
+    return document
+      .querySelector(getBoardItem)
+      .style.setProperty("--ticker-color", "transparent");
+  }
+}
+
+function PlayerOne() {
+  const number = rollDice();
+
+  clearPreviousPosition(playerOneScore);
+
+  getActivePlayer(number, 1);
+
+  document.querySelector(".js-dice-result").innerHTML = number + "  player 1";
+
+  if (playerOneScore < 100 || playerOneScore > 0) {
+    playerOneScore = getOrBounceScore(playerOneScore, number);
+    playerOneScore = getScoreOnSnakeAndLadder(playerOneScore);
+
     let getNewBoardItem = `.board-item-${playerOneScore}`;
     document
       .querySelector(getNewBoardItem)
       .style.setProperty("--ticker-color", "red");
+  } else if (playerOneScore === 100) {
+    alert("player 1 is winner");
   }
 }
 
 function PlayerTwo() {
+  debugger
   const number = rollDice();
+  clearPreviousPosition(playerTwoScore);
 
-  if (number === 6) {
-    document.querySelector(".js-button-1").classList.add("disabled");
-    document.querySelector(".js-button-2").classList.remove("disabled");
-  } else {
-    document.querySelector(".js-button-2").classList.add("disabled");
-    document.querySelector(".js-button-1").classList.remove("disabled");
-  }
-
-  //to show the player number
+  getActivePlayer(number, 2);
+  
   document.querySelector(".js-dice-result").innerHTML = number + "  player 2";
-  //clear the old box
-  if (playerTwoScore > 0) {
-    let getBoardItem = `.board-item-${playerTwoScore}`;
-    document
-      .querySelector(getBoardItem)
-      .style.setProperty("--ticker-color", "transparent");
-  }
 
-  //set current box
+  if (playerTwoScore < 100 || playerTwoScore > 0) {
+    playerTwoScore = getOrBounceScore(playerTwoScore, number);
+    playerTwoScore = getScoreOnSnakeAndLadder(playerTwoScore);
 
-  if (playerTwoScore > 94 && playerTwoScore <= 100) {
-    if (
-      (playerTwoScore === 99 && number === 1) ||
-      (playerTwoScore === 98 && number === 2) ||
-      (playerTwoScore === 97 && number === 3) ||
-      (playerTwoScore === 96 && number === 4) ||
-      (playerTwoScore === 95 && number === 5)
-    ) {
-      console.log("inside 99");
-      playerTwoScore = playerTwoScore + number;
-      alert("player 1 winner");
-    } else {
-      playerTwoScore;
-    }
-
-    if (playerTwoScore === 98 && number === 1) {
-      playerTwoScore = playerTwoScore + number;
-    } else {
-      playerTwoScore;
-    }
-
-    if (playerTwoScore === 97 && (number === 1 || number === 2)) {
-      playerTwoScore = playerTwoScore + number;
-    } else {
-      playerTwoScore;
-    }
-
-    if (
-      playerTwoScore === 96 &&
-      (number === 1 || number === 2 || number === 3)
-    ) {
-      console.log("inside 96");
-      playerTwoScore = playerTwoScore + number;
-    } else {
-      playerTwoScore;
-    }
-
-    if (
-      playerTwoScore === 95 &&
-      (number === 1 || number === 2 || number === 3 || number === 4)
-    ) {
-      console.log("inside 95");
-      playerTwoScore = playerTwoScore + number;
-    } else {
-      playerTwoScore;
-    }
     let getNewBoardItem = `.board-item-${playerTwoScore}`;
     document
       .querySelector(getNewBoardItem)
       .style.setProperty("--ticker-color", "green");
-  } else {
-    playerTwoScore = playerTwoScore + number;
-    let getNewBoardItem = `.board-item-${playerTwoScore}`;
-    document
-      .querySelector(getNewBoardItem)
-      .style.setProperty("--ticker-color", "green");
+  } else if (playerTwoScore === 100) {
+    alert("player 2 is winner");
   }
 }
 
-function getLadderSteps (ladderClass, noOfSteps) {
-  const ladderNode = document.querySelector(ladderClass)
-  for(i=0; i<noOfSteps; i++) {
+function getLadderSteps(ladderClass, noOfSteps) {
+  const ladderNode = document.querySelector(ladderClass);
+  for (i = 0; i < noOfSteps; i++) {
     const ladderSpan = document.createElement("span");
     ladderNode.appendChild(ladderSpan);
   }
@@ -186,5 +204,3 @@ window.addEventListener("load", function(event) {
   getLadderSteps(".ladder-7", 5);
   getLadderSteps(".ladder-8", 6);
 });
-
-
