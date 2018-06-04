@@ -14,7 +14,6 @@ function getOrBounceScore(score, number) {
       (score === 96 && number === 4) ||
       (score === 95 && number === 5)
     ) {
-      console.log("inside 99");
       score = score + number;
       alert("player 1 winner");
     } else {
@@ -34,7 +33,6 @@ function getOrBounceScore(score, number) {
     }
 
     if (score === 96 && (number === 1 || number === 2 || number === 3)) {
-      console.log("inside 96");
       score = score + number;
     } else {
       score;
@@ -44,7 +42,6 @@ function getOrBounceScore(score, number) {
       score === 95 &&
       (number === 1 || number === 2 || number === 3 || number === 4)
     ) {
-      console.log("inside 95");
       score = score + number;
     } else {
       score;
@@ -94,7 +91,7 @@ function getScoreOnSnakeAndLadder(score) {
       score = 8;
       break;
     case 15:
-      score = 1;
+      score = 2;
       break;
     case 93:
       score = 72;
@@ -109,27 +106,23 @@ function getScoreOnSnakeAndLadder(score) {
   return score;
 }
 
-function getActivePlayer(number, playerNumber) {
+function showActiveInactivePlayer (active, inactive) {
   const buttonOne = document.querySelector(".js-button-1");
   const buttonTwo = document.querySelector(".js-button-2");
-  if (playerNumber === 1) {
-    if (number === 6) {
-      buttonTwo.classList.add("disabled");
-      buttonOne.classList.remove("disabled");
-    } else {
-      buttonOne.classList.add("disabled");
-      buttonTwo.classList.remove("disabled");
-    }
+  if (active === 1) {
+    buttonTwo.classList.add("disabled");
+    buttonOne.classList.remove("disabled");
+  } else {
+    buttonOne.classList.add("disabled");
+    buttonTwo.classList.remove("disabled");
   }
-  if (playerNumber === 2) {
-    if (number === 6) {
-      buttonOne.classList.add("disabled");
-      buttonTwo.classList.remove("disabled");
-    } else {
-      buttonTwo.classList.add("disabled");
-      buttonOne.classList.remove("disabled");
-    }
-  }
+}
+
+function getActivePlayer(number, playerNumber) {
+  let active = number === 6 ? playerNumber : (playerNumber % 2) + 1;
+  let inactive = (active % 2) + 1;
+
+  return {active, inactive};
 }
 
 function clearPreviousPosition(score) {
@@ -142,12 +135,17 @@ function clearPreviousPosition(score) {
 }
 
 function PlayerOne() {
+  //To roll the dice
   const number = rollDice();
 
+  //To claar the previous position
   clearPreviousPosition(playerOneScore);
 
-  getActivePlayer(number, 1);
-
+  //To show player is active or inactive based on dice number
+  let {active, inactive} = getActivePlayer(number, 1);
+  showActiveInactivePlayer (active, inactive);
+  
+  //To show the results on side(Need to fix this)
   document.querySelector(".js-dice-result").innerHTML = number + "  player 1";
 
   if (playerOneScore < 100 || playerOneScore > 0) {
@@ -164,12 +162,17 @@ function PlayerOne() {
 }
 
 function PlayerTwo() {
-  debugger
+  //To roll the dice
   const number = rollDice();
+
+  //To claar the previous position
   clearPreviousPosition(playerTwoScore);
 
-  getActivePlayer(number, 2);
+  //To show player is active or inactive based on dice number
+  let {active, inactive} = getActivePlayer(number, 2);
+  showActiveInactivePlayer (active, inactive);
   
+  //To show the results on side(Need to fix this)
   document.querySelector(".js-dice-result").innerHTML = number + "  player 2";
 
   if (playerTwoScore < 100 || playerTwoScore > 0) {
@@ -185,7 +188,7 @@ function PlayerTwo() {
   }
 }
 
-function getLadderSteps(ladderClass, noOfSteps) {
+function createLadder(ladderClass, noOfSteps) {
   const ladderNode = document.querySelector(ladderClass);
   for (i = 0; i < noOfSteps; i++) {
     const ladderSpan = document.createElement("span");
@@ -194,13 +197,12 @@ function getLadderSteps(ladderClass, noOfSteps) {
 }
 
 window.addEventListener("load", function(event) {
-  console.log("All resources finished loading!");
-  getLadderSteps(".ladder-1", 4);
-  getLadderSteps(".ladder-2", 7);
-  getLadderSteps(".ladder-3", 19);
-  getLadderSteps(".ladder-4", 7);
-  getLadderSteps(".ladder-5", 7);
-  getLadderSteps(".ladder-6", 7);
-  getLadderSteps(".ladder-7", 5);
-  getLadderSteps(".ladder-8", 6);
+  createLadder(".ladder-1", 4);
+  createLadder(".ladder-2", 7);
+  createLadder(".ladder-3", 19);
+  createLadder(".ladder-4", 7);
+  createLadder(".ladder-5", 7);
+  createLadder(".ladder-6", 7);
+  createLadder(".ladder-7", 5);
+  createLadder(".ladder-8", 6);
 });
