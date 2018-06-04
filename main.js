@@ -167,4 +167,24 @@ function PlayerTwo() {
   }
 }
 
+function getLadderSteps (ladderClass, noOfSteps) {
+  const ladderNode = document.querySelector(ladderClass)
+  for(i=0; i<noOfSteps; i++) {
+    const ladderSpan = document.createElement("span");
+    ladderNode.appendChild(ladderSpan);
+  }
+}
+
+window.addEventListener("load", function(event) {
+  console.log("All resources finished loading!");
+  getLadderSteps(".ladder-1", 4);
+  getLadderSteps(".ladder-2", 7);
+  getLadderSteps(".ladder-3", 19);
+  getLadderSteps(".ladder-4", 7);
+  getLadderSteps(".ladder-5", 7);
+  getLadderSteps(".ladder-6", 7);
+  getLadderSteps(".ladder-7", 5);
+  getLadderSteps(".ladder-8", 6);
+});
+
 
