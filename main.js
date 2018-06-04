@@ -3,49 +3,11 @@ function rollDice() {
 }
 
 var playerOneScore = 0,
-playerTwoScore = 0;
+  playerTwoScore = 0;
 
-function getOrBounceScore(score, number) {
-  if (score > 94 && score <= 100) {
-    if (
-      (score === 99 && number === 1) ||
-      (score === 98 && number === 2) ||
-      (score === 97 && number === 3) ||
-      (score === 96 && number === 4) ||
-      (score === 95 && number === 5)
-    ) {
-      score = score + number;
-      alert("player 1 winner");
-    } else {
-      score;
-    }
-
-    if (score === 98 && number === 1) {
-      score = score + number;
-    } else {
-      score;
-    }
-
-    if (score === 97 && (number === 1 || number === 2)) {
-      score = score + number;
-    } else {
-      score;
-    }
-
-    if (score === 96 && (number === 1 || number === 2 || number === 3)) {
-      score = score + number;
-    } else {
-      score;
-    }
-
-    if (
-      score === 95 &&
-      (number === 1 || number === 2 || number === 3 || number === 4)
-    ) {
-      score = score + number;
-    } else {
-      score;
-    }
+function checkScoreGreaterThan100(score, number) {
+  if (score + number > 100) {
+    score;
   } else {
     score = score + number;
   }
@@ -106,7 +68,7 @@ function getScoreOnSnakeAndLadder(score) {
   return score;
 }
 
-function showActiveInactivePlayer (active, inactive) {
+function showActiveInactivePlayer(active, inactive) {
   const buttonOne = document.querySelector(".js-button-1");
   const buttonTwo = document.querySelector(".js-button-2");
   if (active === 1) {
@@ -119,10 +81,10 @@ function showActiveInactivePlayer (active, inactive) {
 }
 
 function getActivePlayer(number, playerNumber) {
-  let active = number === 6 ? playerNumber : (playerNumber % 2) + 1;
-  let inactive = (active % 2) + 1;
+  let active = number === 6 ? playerNumber : playerNumber % 2 + 1;
+  let inactive = active % 2 + 1;
 
-  return {active, inactive};
+  return { active, inactive };
 }
 
 function clearPreviousPosition(score) {
@@ -142,22 +104,22 @@ function PlayerOne() {
   clearPreviousPosition(playerOneScore);
 
   //To show player is active or inactive based on dice number
-  let {active, inactive} = getActivePlayer(number, 1);
-  showActiveInactivePlayer (active, inactive);
-  
+  let { active, inactive } = getActivePlayer(number, 1);
+  showActiveInactivePlayer(active, inactive);
+
   //To show the results on side(Need to fix this)
   document.querySelector(".js-dice-result").innerHTML = number + "  player 1";
 
-  if (playerOneScore < 100 || playerOneScore > 0) {
-    playerOneScore = getOrBounceScore(playerOneScore, number);
-    playerOneScore = getScoreOnSnakeAndLadder(playerOneScore);
+  playerOneScore = checkScoreGreaterThan100(playerOneScore, number);
+  playerOneScore = getScoreOnSnakeAndLadder(playerOneScore);
 
+  if (playerOneScore === 100) {
+    alert("player 1 is winner");
+  } else {
     let getNewBoardItem = `.board-item-${playerOneScore}`;
     document
       .querySelector(getNewBoardItem)
       .style.setProperty("--ticker-color", "red");
-  } else if (playerOneScore === 100) {
-    alert("player 1 is winner");
   }
 }
 
@@ -169,22 +131,22 @@ function PlayerTwo() {
   clearPreviousPosition(playerTwoScore);
 
   //To show player is active or inactive based on dice number
-  let {active, inactive} = getActivePlayer(number, 2);
-  showActiveInactivePlayer (active, inactive);
-  
+  let { active, inactive } = getActivePlayer(number, 2);
+  showActiveInactivePlayer(active, inactive);
+
   //To show the results on side(Need to fix this)
   document.querySelector(".js-dice-result").innerHTML = number + "  player 2";
 
-  if (playerTwoScore < 100 || playerTwoScore > 0) {
-    playerTwoScore = getOrBounceScore(playerTwoScore, number);
-    playerTwoScore = getScoreOnSnakeAndLadder(playerTwoScore);
+  playerTwoScore = checkScoreGreaterThan100(playerTwoScore, number);
+  playerTwoScore = getScoreOnSnakeAndLadder(playerTwoScore);
 
+  if (playerTwoScore === 100) {
+    alert("player 2 is winner");
+  } else {
     let getNewBoardItem = `.board-item-${playerTwoScore}`;
     document
       .querySelector(getNewBoardItem)
       .style.setProperty("--ticker-color", "green");
-  } else if (playerTwoScore === 100) {
-    alert("player 2 is winner");
   }
 }
 
